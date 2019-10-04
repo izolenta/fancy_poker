@@ -1,28 +1,26 @@
 import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 
 class Precacher {
 
   bool areAssetsPrecached = false;
 
-  // ignore: close_sinks
   StreamController<void> _onPrecachingDone = new StreamController<void>.broadcast();
   Stream get onPrecachingDone => _onPrecachingDone.stream;
 
   static const assetImages = [
-    'assets/images/cards/1.png',
-    'assets/images/cards/2.png',
-    'assets/images/cards/3.png',
-    'assets/images/cards/5.png',
-    'assets/images/cards/8.png',
-    'assets/images/cards/13.png',
-    'assets/images/cards/21.png',
-    'assets/images/cards/40.png',
-    'assets/images/cards/100.png',
-    'assets/images/cards/break.png',
-    'assets/images/cards/unclear.png',
-    'assets/images/cards/back.png',
+    'assets/images/1.png',
+    'assets/images/2.png',
+    'assets/images/3.png',
+    'assets/images/5.png',
+    'assets/images/8.png',
+    'assets/images/13.png',
+    'assets/images/21.png',
+    'assets/images/40.png',
+    'assets/images/100.png',
+    'assets/images/break.png',
+    'assets/images/unclear.png',
+    'assets/images/back.png',
   ];
 
   Future<void> precacheAssets(BuildContext context) async {
@@ -35,5 +33,9 @@ class Precacher {
       areAssetsPrecached = true;
       _onPrecachingDone.add(null);
     }
+  }
+
+  void dispose() {
+    _onPrecachingDone.close();
   }
 }
