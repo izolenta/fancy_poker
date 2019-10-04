@@ -17,8 +17,8 @@ class _GridWidgetState extends State<GridWidget>{
         Image.asset('assets/images/21.png'),
         Image.asset('assets/images/40.png'),
         Image.asset('assets/images/100.png'),
-        Image.asset('assets/images/break.png'),
         Image.asset('assets/images/unclear.png'),
+        Image.asset('assets/images/break.png'),
   ];
 
   @override
@@ -26,8 +26,8 @@ class _GridWidgetState extends State<GridWidget>{
     return GridView(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       gridDelegate:new SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 20,
+        crossAxisCount: 3,
+        mainAxisSpacing: 10,
         crossAxisSpacing: 5,
         childAspectRatio: 0.8,
       ),

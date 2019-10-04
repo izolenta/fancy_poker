@@ -15,6 +15,20 @@ packages:
       url: "http://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  built_collection:
+    dependency: "direct main"
+    description:
+      name: built_collection
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "4.2.2"
+  built_value:
+    dependency: "direct main"
+    description:
+      name: built_value
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "6.7.1"
   charcode:
     dependency: transitive
     description:
@@ -36,11 +50,25 @@ packages:
       url: "http://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "0.10.9"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_redux:
+    dependency: "direct main"
+    description:
+      name: flutter_redux
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   flutter_simple_dependency_injection:
     dependency: "direct main"
     description:
@@ -88,6 +116,20 @@ packages:
       url: "http://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  redux:
+    dependency: "direct main"
+    description:
+      name: redux
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+  screen:
+    dependency: "direct main"
+    description:
+      name: screen
+      url: "http://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   sky_engine:
     dependency: transitive
     description: flutter

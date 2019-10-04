@@ -1,27 +1,45 @@
+import 'package:fancy_poker/redux/app_reducer.dart';
+import 'package:fancy_poker/redux/app_selector.dart';
+import 'package:fancy_poker/redux/app_state.dart';
 import 'package:fancy_poker/util/inject_helper.dart';
 import 'package:fancy_poker/util/precacher.dart';
-import 'package:fancy_poker/widgets/grid_widget.dart';
+import 'package:fancy_poker/widgets/scene_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_simple_dependency_injection/injector.dart';
+import 'package:redux/redux.dart';
+import 'package:screen/screen.dart';
 
 void main() async {
 
   final injector = Injector.getInjector();
+
   injector.map<Precacher>((s) =>  Precacher(), isSingleton: true);
-  runApp(MyApp());
+  injector.map<AppSelector>((s) =>  AppSelector(), isSingleton: true);
+
+  final store = new Store<AppState>(
+      appReducer,
+      initialState: AppState.initial());
+  runApp(MyApp(store));
 }
 
 class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+  MyApp(this.store);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fantasy Scrum Poker',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: MyHomePage(title: 'Fantasy Scrum Poker'),
+    return new StoreProvider<AppState>(
+      store: store,
+      child: MaterialApp(
+        title: 'Fantasy Scrum Poker',
+        theme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+        ),
+        home: MyHomePage(title: 'Fantasy Scrum Poker'),
+      )
     );
   }
 }
@@ -45,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    Screen.keepOn(true);
     super.initState();
   }
 
@@ -65,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Center(
-          child: GridWidget(),
+          child: SceneWidget(),
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Increment',
