@@ -1,3 +1,5 @@
+import 'package:fancy_poker/util/card_id_enum.dart';
+import 'package:fancy_poker/util/cards_set.dart';
 import 'package:flutter/widgets.dart';
 
 class GridWidget extends StatefulWidget {
@@ -6,20 +8,6 @@ class GridWidget extends StatefulWidget {
 }
 
 class _GridWidgetState extends State<GridWidget>{
-
-  final children = <Widget>[
-        Image.asset('assets/images/1.png'),
-        Image.asset('assets/images/2.png'),
-        Image.asset('assets/images/3.png'),
-        Image.asset('assets/images/5.png'),
-        Image.asset('assets/images/8.png'),
-        Image.asset('assets/images/13.png'),
-        Image.asset('assets/images/21.png'),
-        Image.asset('assets/images/40.png'),
-        Image.asset('assets/images/100.png'),
-        Image.asset('assets/images/unclear.png'),
-        Image.asset('assets/images/break.png'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +19,7 @@ class _GridWidgetState extends State<GridWidget>{
         crossAxisSpacing: 5,
         childAspectRatio: 0.8,
       ),
-      children: children,
+      children: cardWidgets.where((x) => x.cardId != CardIdEnum.back).toList(),
     );
   }
 }

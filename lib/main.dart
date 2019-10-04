@@ -1,3 +1,4 @@
+import 'package:fancy_poker/redux/actions/get_back_to_grid_action.dart';
 import 'package:fancy_poker/redux/app_reducer.dart';
 import 'package:fancy_poker/redux/app_selector.dart';
 import 'package:fancy_poker/redux/app_state.dart';
@@ -59,6 +60,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   bool _isLoaded = false;
+  final _selector = getInjected<AppSelector>();
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -79,18 +82,30 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoaded) {
-      return Scaffold(backgroundColor: Colors.black87,
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: SceneWidget(),
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Increment',
-          child: Icon(Icons.question_answer),
-        ),
-      );
+      return new StoreConnector<AppState, OnStateChanged>(
+        converter: (store) {
+          return () {
+            if (!_selector.areAllCardsDisplayed(store.state)) {
+              store.dispatch(GetBackToGridAction());
+            }
+          };
+        }, builder: (context, callback) {
+        return new WillPopScope(
+          onWillPop: callback(),
+          child: Scaffold(backgroundColor: Colors.white10,
+            appBar: AppBar(
+              title: Text(widget.title),
+            ),
+            body: Center(
+              child: SceneWidget(),
+            ),
+            floatingActionButton: FloatingActionButton(
+              tooltip: 'Increment',
+              child: Icon(Icons.question_answer),
+            ),
+          ),
+        );
+      });
     }
     return Center();
   }
@@ -101,3 +116,5 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 }
+
+typedef OnStateChanged = Function();

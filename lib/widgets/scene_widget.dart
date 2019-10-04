@@ -1,5 +1,7 @@
 import 'package:fancy_poker/redux/app_selector.dart';
 import 'package:fancy_poker/redux/app_state.dart';
+import 'package:fancy_poker/util/card_id_enum.dart';
+import 'package:fancy_poker/util/cards_set.dart';
 import 'package:fancy_poker/util/inject_helper.dart';
 import 'package:fancy_poker/widgets/grid_widget.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +18,10 @@ class SceneWidget extends StatelessWidget {
         if (_selector.areAllCardsDisplayed(state)) {
           return GridWidget();
         }
-        return Center();
+        if (_selector.isCardHidden(state)) {
+          return cardWidgets.firstWhere((x) => x.cardId == CardIdEnum.back);
+        }
+        return cardWidgets.firstWhere((x) => x.cardId == _selector.getCurrentCard(state));
       }
     );
   }
