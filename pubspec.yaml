@@ -1,0 +1,32 @@
+name: fancy_poker
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  inject:
+    git:
+      url: https://github.com/google/inject.dart.git
+      ref: master
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  assets:
+    - assets/images/
+
+  uses-material-design: true
+
+  fonts:
+    - family: Chalkboard
+      fonts:
+        - asset: assets/fonts/13550.otf
