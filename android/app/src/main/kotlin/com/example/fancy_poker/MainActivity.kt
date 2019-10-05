@@ -1,4 +1,4 @@
-package com.example.fancy_poker
+package com.swiftmoon.fancy_poker
 
 import android.os.Bundle
 
