@@ -1,13 +1,10 @@
-import 'package:fancy_poker/util/card_id_enum.dart';
 import 'package:fancy_poker/util/cards_set.dart';
+import 'package:fancy_poker/util/inject_helper.dart';
 import 'package:flutter/widgets.dart';
 
-class GridWidget extends StatefulWidget {
-  @override
-  State<GridWidget> createState() => _GridWidgetState();
-}
+class GridWidget extends StatelessWidget {
 
-class _GridWidgetState extends State<GridWidget>{
+  final _cards = getInjected<CardCollection>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class _GridWidgetState extends State<GridWidget>{
         crossAxisSpacing: 5,
         childAspectRatio: 0.8,
       ),
-      children: cardWidgets.where((x) => x.cardId != CardIdEnum.back).toList(),
+      children: _cards.getAllCards(),
     );
   }
 }

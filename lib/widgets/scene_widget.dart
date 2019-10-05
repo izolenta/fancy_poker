@@ -9,6 +9,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class SceneWidget extends StatelessWidget {
   final _selector = getInjected<AppSelector>();
+  final _cards = getInjected<CardCollection>();
+  final _grid = GridWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,23 @@ class SceneWidget extends StatelessWidget {
       converter: (store) => store.state,
       builder: (context, state) {
         if (_selector.areAllCardsDisplayed(state)) {
-          return GridWidget();
+          return AnimatedSwitcher(
+              child: _grid,
+              duration: Duration(milliseconds: 500),
+            reverseDuration: Duration(milliseconds: 50),
+          );
         }
-        if (_selector.isCardHidden(state)) {
-          return cardWidgets.firstWhere((x) => x.cardId == CardIdEnum.back);
-        }
-        return cardWidgets.firstWhere((x) => x.cardId == _selector.getCurrentCard(state));
+
+        return AnimatedSwitcher(
+          child: _selector.isCardHidden(state)
+              ? _cards.getCard(CardIdEnum.back)
+              : _cards.getCard(_selector.getCurrentCard(state)),
+          duration: Duration(milliseconds: 500),
+          switchInCurve: Curves.bounceOut,
+          reverseDuration: Duration(milliseconds: 50),
+          transitionBuilder: (Widget child, Animation<double> animation) =>
+             ScaleTransition(child: child, scale: animation),
+        );
       }
     );
   }

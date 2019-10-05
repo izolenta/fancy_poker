@@ -2,6 +2,7 @@ import 'package:fancy_poker/redux/actions/get_back_to_grid_action.dart';
 import 'package:fancy_poker/redux/app_reducer.dart';
 import 'package:fancy_poker/redux/app_selector.dart';
 import 'package:fancy_poker/redux/app_state.dart';
+import 'package:fancy_poker/util/cards_set.dart';
 import 'package:fancy_poker/util/inject_helper.dart';
 import 'package:fancy_poker/util/precacher.dart';
 import 'package:fancy_poker/widgets/scene_widget.dart';
@@ -18,6 +19,7 @@ void main() async {
 
   injector.map<Precacher>((s) =>  Precacher(), isSingleton: true);
   injector.map<AppSelector>((s) =>  AppSelector(), isSingleton: true);
+  injector.map<CardCollection>((s) =>  CardCollection(), isSingleton: true);
 
   final store = new Store<AppState>(
       appReducer,
@@ -81,33 +83,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoaded) {
-      return new StoreConnector<AppState, OnStateChanged>(
-        converter: (store) {
-          return () {
-            if (!_selector.areAllCardsDisplayed(store.state)) {
-              store.dispatch(GetBackToGridAction());
-            }
-          };
-        }, builder: (context, callback) {
-        return new WillPopScope(
-          onWillPop: callback(),
-          child: Scaffold(backgroundColor: Colors.white10,
-            appBar: AppBar(
-              title: Text(widget.title),
-            ),
-            body: Center(
-              child: SceneWidget(),
-            ),
-            floatingActionButton: FloatingActionButton(
-              tooltip: 'Increment',
-              child: Icon(Icons.question_answer),
-            ),
+    return new StoreConnector<AppState, OnMyStateChanged>(
+      converter: (store) {
+        return () {
+          if (!_selector.areAllCardsDisplayed(store.state)) {
+            store.dispatch(GetBackToGridAction());
+          }
+          else {
+            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          }
+        };
+      }, builder: (context, callback) {
+      return new WillPopScope(
+        onWillPop: () => callback(),
+        child: Scaffold(backgroundColor: Colors.white10,
+          appBar: AppBar(
+            title: Text(widget.title),
           ),
-        );
-      });
-    }
-    return Center();
+          body: Center(
+            child: _isLoaded? SceneWidget() : Center(),
+          ),
+        ),
+      );
+    });
   }
 
   @override
@@ -117,4 +115,4 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-typedef OnStateChanged = Function();
+typedef OnMyStateChanged = Function();

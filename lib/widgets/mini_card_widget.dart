@@ -12,11 +12,15 @@ class MiniCardWidget extends StatelessWidget {
   final CardIdEnum cardId;
 
   final _selector = getInjected<AppSelector>();
+  final Image _image;
 
   MiniCardWidget({
     @required this.imageLink,
     @required this.cardId
-  });
+  }) : _image = Image.asset(imageLink);
+
+  @override
+  Key get key => ValueKey(cardId);
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +41,10 @@ class MiniCardWidget extends StatelessWidget {
             print(cardId);
             callback(cardId);
           },
-          child: Image.asset(imageLink),
+          child: _image,
         );
-      });
+      },
+    );
   }
 }
 typedef OnStateChanged = Function(CardIdEnum item);
